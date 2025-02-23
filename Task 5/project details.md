@@ -1,32 +1,86 @@
-Line follower robot using VSDsquadronmini
+*Project Title:* Speed Limit Indicator System with LEDs using VSD Squadron Mini  
 
-![image](https://github.com/user-attachments/assets/a1706305-4c25-46e1-a812-57f36f5a286d)
+---
 
-A line follower robot is an autonomous robot designed to follow a predefined path, usually marked by a visible line or track, such as a black line on a white surface (or vice versa). These robots are equipped with sensors that enable them to detect the line and adjust their movement to stay on course. The robot continuously reads sensor inputs and makes decisions to ensure it follows the path accurately.
-Key Components:
-1. Sensors: 
-   - 3 IR sensors (left, center, right) to detect the line’s position.
-   - The robot moves forward if the center sensor detects the line and adjusts based on the other sensors.
-   
-2. Motor Control:
-   - Uses an H-bridge motor driver (like L293D) to control motor 
-speed and direction.
-   - Motors move the robot based on sensor inputs to align with the line.
-3. Decision Logic:
-   - Forward if the center sensor detects the line.
-   - Turn right if the left sensor detects the line.
-   - Turn left if the right sensor detects the line.
-   - If no sensor detects the line, it stops or searches for the line.
+### *Objective*  
+Develop a speed monitoring system that uses LEDs to visually indicate when a vehicle exceeds predefined speed limits. The VSD Squadron Mini (ESP32-based) processes sensor data to calculate speed and controls LEDs to show compliance/warnings.
 
- Components:
-- 3 IR sensors, L293D motor driver, 2 motors, and VSDSquadronmini controller.
+---
 
- Pin Configuration:
-- VCC: 5V
-- GND: GND
-- IR Sensors: PD5 (left), PD6 (center), PD7 (right)
-- Motor Driver Pins: PD1, PD2, PD3, PD4
-- Power: 12V as Vin.
+### *Key Components*  
+1. *VSD Squadron Mini Microcontroller* (ESP32 core)  
+2. *Speed Sensor* (Hall effect sensor or magnetic reed switch)  
+3. *LEDs* (Green, Yellow, Red)  
+4. Resistors (220–330Ω for LEDs)  
+5. Wheel with embedded magnet(s)  
 
-This robot is ideal for robotics competitions, educational projects, and industrial automation tasks.
+---
 
+### *Working Principle*  
+1. *Sensor Input*:  
+   - A magnet attached to a rotating wheel triggers the Hall effect sensor.  
+   - Each rotation generates a pulse counted by the microcontroller.  
+
+2. *Speed Calculation*:  
+   - The microcontroller calculates speed using:  
+     *Speed (km/h) = (Pulses × Wheel Circumference × 60) / (Number of Magnets × 1000)*  
+
+3. *LED Indication*:  
+   - *Green LED*: Speed < Warning threshold (e.g., 45 km/h).  
+   - *Yellow LED*: Speed ≥ Warning threshold but < Speed limit (e.g., 45–50 km/h).  
+   - *Red LED*: Speed ≥ Speed limit (e.g., 50 km/h).  
+
+---
+
+### *Features*  
+- Real-time speed monitoring via serial output.  
+- Multi-color visual feedback for speed status.  
+- Configurable thresholds (SPEED_LIMIT, WARNING_THRESHOLD).  
+- Low power consumption (LED-based alerts).  
+- Interrupt-driven pulse counting for accuracy.  
+
+---
+
+### *Hardware Setup*  
+1. *Sensor*: Connect Hall effect sensor to GPIO13 (interrupt-enabled pin).  
+2. *LEDs*:  
+   - Green LED → GPIO12  
+   - Yellow LED → GPIO14  
+   - Red LED → GPIO27  
+3. *Parameters*:  
+   - Wheel circumference (e.g., 2 meters).  
+   - 1–2 magnets per wheel revolution.  
+
+---
+
+### *Applications*  
+- Bicycles/e-bikes for safety compliance.  
+- Industrial conveyor belt speed monitoring.  
+- Educational tool for IoT and embedded systems.  
+- Retrofit for older vehicles lacking speed alerts.  
+
+---
+
+### *Results & Output*  
+- Serial Monitor displays real-time speed (e.g., "Speed: 48 km/h").  
+- LEDs activate based on predefined thresholds:  
+  - *Green*: Safe speed.  
+  - *Yellow*: Approaching limit.  
+  - *Red*: Over limit.  
+
+---
+
+### *Expansion Ideas*  
+1. Add a buzzer for audible alerts when exceeding limits.  
+2. Integrate an OLED display to show live speed.  
+3. Implement Bluetooth/WiFi to log speed data.  
+4. Use NeoPixel LEDs for dynamic color gradients.  
+
+---
+
+### *Why VSD Squadron Mini?*  
+- Dual-core ESP32 for multitasking (sensor interrupts + LED control).  
+- Built-in WiFi/Bluetooth for IoT integration.  
+- Compact size and GPIO flexibility.  
+
+This project combines embedded programming, sensor interfacing, and real-time feedback, making it ideal for learning IoT basics or creating a practical safety device! 🚴♂🚗💡
